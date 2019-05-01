@@ -16,8 +16,8 @@ from rest_framework.response import Response
 
 # from accounts.models import Skill
 # from .serializers import UserSerializer
-
 from . import forms
+
 
 # Create your views here.
 class LoginView(generic.FormView):
@@ -40,7 +40,7 @@ class LoginView(generic.FormView):
 
 class LogoutView(generic.RedirectView):
     url = reverse_lazy('home')
-    
+
     def get(self, request, *args, **kwargs):
         logout(request)
         return super().get(request, *args, **kwargs)
@@ -65,7 +65,7 @@ class SignupView(generic.CreateView):
     template_name = 'v1/accounts/signup.html'
     # Sim validation email with EMAIL_BACKEND and EMAIL_FILE_PATH settings
     # *MUST ADD* actual validation email when deploying to live website. #####
-    
+
 
 class ProfileView():
     pass
