@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 # Custom user is in settings import.
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -52,14 +53,14 @@ class LogoutView(generic.RedirectView):
 #    model = get_user_model()
 #
 #    def post(self, request, format=None):
-#        serializer = UserSerializer(data=request.data)        
+#        serializer = UserSerializer(data=request.data)
 #        serializer.is_valid(raise_exception=True)
 #        user = serializer.save()
 #        UserManager.create_user(user)
 #        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class SignupView(generic.CreateView):
+class SignUpView(generic.CreateView):
     form_class = forms.UserCreateForm
     success_url = reverse_lazy('login')
     template_name = 'v1/accounts/signup.html'

@@ -70,10 +70,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         return "{} (@{})".format(self.display_name, self.username)
 
 
-# class Skill(models.Model):
-#    name = models.CharField(max_length=100, unique=True)
-#    users = models.ManyToManyField(User)
-#    # skill.users = queuryset of all users with this skill.
-#
-#    def __str__(self):
-#        return 'Skill: {}'.format(self.name)
+class Skill(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    users = models.ManyToManyField(User)
+    # skill.users = queuryset of all users with this skill.
+
+    def __str__(self):
+        return 'Skill: {}'.format(self.name)
