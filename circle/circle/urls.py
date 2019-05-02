@@ -20,6 +20,6 @@ urlpatterns = [
     # url(r'^$', views.Home.as_view(), name='home')),
     url(r'^admin/', admin.site.urls),
     url(r'^v1/accounts/', include('accounts.urls', namespace='accounts')),
-    url(r'^v1/accounts/', include('django.contrib.auth.urls')),
+    # url(r'^v1/accounts/', include('django.contrib.auth.urls')),
     url(r'^v1/projects/', include('projects.urls', namespace='projects')),
 ]
