@@ -21,7 +21,7 @@ from . import forms
 
 
 # Create your views here.
-class LoginView(generic.FormView):
+class LogInView(generic.FormView):
     form_class = AuthenticationForm
     success_url = reverse_lazy("projects:all")
     # success_url should point to page which displays
@@ -39,7 +39,7 @@ class LoginView(generic.FormView):
         return super().form_valid(form)
 
 
-class LogoutView(generic.RedirectView):
+class LogOutView(generic.RedirectView):
     url = reverse_lazy('home')
 
     def get(self, request, *args, **kwargs):
@@ -63,7 +63,7 @@ class LogoutView(generic.RedirectView):
 class SignUpView(generic.CreateView):
     form_class = forms.UserCreateForm
     success_url = reverse_lazy('login')
-    template_name = 'v1/accounts/signup.html'
+    template_name = 'accounts/signup.html'
     # Sim validation email with EMAIL_BACKEND and EMAIL_FILE_PATH settings
     # *MUST ADD* actual validation email when deploying to live website. #####
 
