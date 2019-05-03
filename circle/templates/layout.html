@@ -1,3 +1,4 @@
+{% load static from staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Circle</title>
+  <title>{% block title_tag %}Djenga Circle{% endblock %}</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -15,12 +16,12 @@
 
   <!-- FONTS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Cousine' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Cousine" rel="stylesheet" type="text/css">
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="{% static 'css/local.css' %}">
 
   <!-- JS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -56,7 +57,7 @@
           <nav>
             <ul class="circle--inline">
 				{% if user.is_authenticated %}
-					<!-- insert sign out here: <a href="{% url 'menu:menu_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a> -->
+					<!-- insert sign out here: <a href="{% url 'accounts:logout' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a> -->
 					<li><a href="signout.html">Sign Out</a></li>
 				{% else %}
 					<li><a href="signup.html">Sign Up</a></li>
