@@ -70,3 +70,19 @@ class SignUpView(generic.CreateView):
 
 class ProfileView():
     pass
+
+
+class ProfileEditView():
+    pass
+
+
+class ApplicationsView():
+    '''
+    Allow user to view applicants for each of their projects.
+    
+    pk: logged-in user.
+    context: all projects who have the user as their creator.
+    Allow sorting of applicants:
+    by status, and/or projects, and/or positions.
+    '''
+    pass

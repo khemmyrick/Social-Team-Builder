@@ -2,27 +2,14 @@ from django.conf.urls import url
 
 from . import views
 
+app_name = 'projects'
 urlpatterns = [
-    # url(r"^$", views.AllCommunities.as_view(), name="list"),
-    # url(r"^new/$", views.CreateCommunity.as_view(), name="create"),
-    # url(
-    #    r"^posts/in/(?P<slug>[-\w]+)/$",
-    #    views.SingleCommunity.as_view(),
-    #    name="single"
-    # ),
-    # url(
-    #    r"join/(?P<slug>[-\w]+)/$",
-    #    views.JoinCommunity.as_view(),
-    #    name="join"
-    # ),
-    # url(
-    #    r"leave/(?P<slug>[-\w]+)/$",
-    #    views.LeaveCommunity.as_view(),
-    #    name="leave"
-    # ),
-    # url(
-    #    r"change_status/(?P<slug>[-\w]+)/(?P<user_id>\d+)/(P?<status>\d)/$",
-    #    views.ChangeStatus.as_view(),
-    #    name="change_status"
-    # ),
+    # url(r'new/$', views.CreateProjectView.as_view(), name='new'),
+    # url(r'search/$', views.CreateProjectView.as_view(), name='search'),
+    # url(r'(?P<pk>\d+)/$', views.ProjectView.as_view(), name='project'),
+    # url(r'(?P<pk>\d+)/edit/$', views.ProjectEditView.as_view(), name='edit'),
 ]
+
+# project search might just be main project index page.
+# search view goes here. list view goes to main project index. 
+# no pk necessary. context info will handle that.
