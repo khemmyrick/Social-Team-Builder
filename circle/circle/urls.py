@@ -29,9 +29,9 @@ from . import views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^admin/', admin.site.urls),
-    url(r'^v1/accounts/', include('accounts.urls', namespace='accounts')),
-    url(r'^v1/accounts/', include('django.contrib.auth.urls')),
-    url(r'^v1/projects/', include('projects.urls', namespace='projects')),
+    url(r'^v2/accounts/', include('accounts.urls', namespace='accounts')),
+    url(r'^v2/accounts/', include('django.contrib.auth.urls')),
+    url(r'^v2/projects/', include('projects.urls', namespace='projects')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
 # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

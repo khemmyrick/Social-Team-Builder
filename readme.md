@@ -1,6 +1,6 @@
 
 
-# Social Team Builder
+# Social Team Builder (Djenga Circle v2)
 
 A Treehouse Python Web Development Techdegree Capstone Project
 

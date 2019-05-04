@@ -7,7 +7,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 from django.views import generic
 from django.shortcuts import render
-from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -23,7 +22,7 @@ from . import forms
 # Create your views here.
 class LogInView(generic.FormView):
     form_class = AuthenticationForm
-    success_url = reverse_lazy("projects:all")
+    success_url = reverse_lazy("home")
     # success_url should point to page which displays
     # 1. all projects loggedin user created
     # 2. a list of projects that need user's skill set.
@@ -61,6 +60,9 @@ class LogOutView(generic.RedirectView):
 
 
 class SignUpView(generic.CreateView):
+    # Model handled in form...  model = get_user_model()
+    # Fields handled in form... fields = []
+    permission_classes = (permissions.AllowAny,)
     form_class = forms.UserCreateForm
     success_url = reverse_lazy('login')
     template_name = 'accounts/signup.html'
