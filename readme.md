@@ -11,11 +11,11 @@ A Treehouse Python Web Development Techdegree Capstone Project
 `env\scripts\activate`  
 - Use pip to install requirements.  
 `pip install -r requirements.txt`  
-- From the primary backend folder, make migrations.
+- From the primary backend folder, make migrations.  
 `python manage.py makemigrations`
-- Apply migrations.
+- Apply migrations.  
 `python manage.py migrate`
 
 ## Creating a Superuser
-- Create a superuser with username, email and password.
+- Create a superuser with username, email and password.  
 `python manage.py createsuperuser`
