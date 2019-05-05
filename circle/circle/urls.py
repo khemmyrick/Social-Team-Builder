@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^v2/accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^v2/accounts/', include('django.contrib.auth.urls')),
+    # url(r'^v2/accounts/', include('registration.backends.hmac.urls')),
     url(r'^v2/projects/', include('projects.urls', namespace='projects')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()

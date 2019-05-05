@@ -113,6 +113,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# django-registration settings
+# https://django-registration.readthedocs.io/en/2.0.2/quickstart.html
+
+ACCOUNT_ACTIVATION_DAYS = 7
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -141,7 +147,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-LOGIN_REDIRECT_URL = 'projects:all'
+LOGIN_REDIRECT_URL = 'home'
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')

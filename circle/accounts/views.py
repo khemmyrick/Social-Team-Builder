@@ -65,6 +65,10 @@ class SignUpView(generic.CreateView):
     permission_classes = (permissions.AllowAny,)
     form_class = forms.UserCreateForm
     success_url = reverse_lazy('login')
+    # For EXCEEDS put email validation here.
+    # 1. create user as inactive by default.
+    # 2. "email" user a file with first 5 digits of token for "verification code".
+    # 3. have user enter verification code to activate account.
     template_name = 'accounts/signup.html'
     # Sim validation email with EMAIL_BACKEND and EMAIL_FILE_PATH settings
     # *MUST ADD* actual validation email when deploying to live website. #####

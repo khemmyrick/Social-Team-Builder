@@ -1,2 +1,4 @@
 Django==1.9.9
+django-registration==2.0.2
 djangorestframework==3.4.1
+Pillow==6.0.0
