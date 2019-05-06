@@ -77,18 +77,15 @@ class SignUpView(generic.CreateView):
 
 
 class ProfileDetailView(DetailView):
-
+    permission_classes = (permissions.IsAuthenticated,)
     model = get_user_model()
-    # user.skill_set == user's skills
-    # user.projects == projects user created
-    # for pos in user.positions pos.name, pos.project == positions user has had, project it was for
 
-    def get_context_data(self, pk=model.pk):
+    def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(
             ProfileDetailView,
             self
-        ).get_context_data(pk=pk)
+        ).get_context_data(**kwargs)
         # Add in seperate QuerySet ?
         # context['user'] = model.objects.prefetch_related(
         # 'positions',
