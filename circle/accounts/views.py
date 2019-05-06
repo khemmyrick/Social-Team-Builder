@@ -6,6 +6,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 from django.views import generic
+from django.views.generic.edit import UpdateView
+from django.views.generic.detail import DetailView
 from django.shortcuts import render
 from django.db.models import Q
 from django.http import Http404
@@ -74,11 +76,30 @@ class SignUpView(generic.CreateView):
     # *MUST ADD* actual validation email when deploying to live website. #####
 
 
-class ProfileView():
-    pass
+class ProfileDetailView(DetailView):
+
+    model = get_user_model()
+    # user.skill_set == user's skills
+    # user.projects == projects user created
+    # for pos in user.positions pos.name, pos.project == positions user has had, project it was for
+
+    def get_context_data(self, pk=model.pk):
+        # Call the base implementation first to get a context
+        context = super(
+            ProfileDetailView,
+            self
+        ).get_context_data(pk=pk)
+        # Add in seperate QuerySet ?
+        # context['user'] = model.objects.prefetch_related(
+        # 'positions',
+        # 'projects',
+        # 'skills'
+        # )
+        return context
 
 
-class ProfileEditView():
+class ProfileUpdateView(UpdateView):
+    model = get_user_model()
     pass
 
 

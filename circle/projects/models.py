@@ -15,6 +15,7 @@ class Project(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 related_name="projects",
                                 on_delete=models.PROTECT)
+    requirements = models.CharField(max_length=500)
     # project.positions to query positions.
 
     def __str__(self):
@@ -30,16 +31,19 @@ class Position(models.Model):
     description = models.CharField(max_length=500, blank=True, null=True)
     # related_skill
     # like UserPref in pugorugh, regulates who can apply.
-    # filled = boolean, defaults to false, except for "creator" position
+    filled = models.BooleanField(default=False)
     project = models.ForeignKey(Project,
                                 related_name="positions",
                                 on_delete=models.CASCADE) 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name="positions",
-                             on_delete=models.PROTECT)
+                             on_delete=models.PROTECT,
+                             blank=True,
+                             null=True)
+    # user field will be blank until position is filled
     skills = models.ManyToManyField(Skill)
     # skills = foreign key for skills required
-    # time commitment
+    time = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name

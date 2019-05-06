@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 
+{% block title_tag %}Edit {{ user.username }} Details | {{ block.super }}{% endblock %}
 {% block body %}
   <div class="circle--actions--bar">
     <div class="bounds">

@@ -1,12 +1,13 @@
 {% extends "layout.html" %}
 
+{% block title_tag %}{{ project.name }} | {{ block.super }}{% endblock %}
 {% block body %}
 
   <div class="circle--actions--bar">
     <div class="bounds">
       <div class="grid-100">
-        <a class="button" href="project_edit.html">Edit Project</a>
-        <a class="button button-text" href="index.html">Delete Project</a>
+        <a class="button" href="{% url 'projects:edit' pk=project.id %}">Edit Project</a>
+        <a class="button button-text" href="{% url 'projects:delete' pk=project.id %}">Delete Project</a>
       </div>
     </div>
   </div>
@@ -20,7 +21,7 @@
       </div>
 
       <div class="circle--article--body">
-		{{ project.description }}
+		{{ project.description.as_p }}
 		<!--
 		ADDITIONAL CODE TO FORMAT LONG TEXT STRING EITHER IN TEMPLATE TAG OR IN VIEWS.
 		-->
@@ -31,16 +32,22 @@
 
         <ul class="circle--group--list">
 		<!-- 
-		Use Django forloop to LIST Position titles and brief descriptions of positions.
+		Use Django forloop to LIST Position titles and brief descriptions of positions. -->
 			{% for position in project.positions %}
 			<li>
 				<h3>{{ position.name }}</h3>
 				<p>{{ position.description }}</p>
-				### add if statement here checking if the position is filled or not ###
+				{% if position.filled %}
+				<a class="button button-primary button-inactive">Position Filled</a>
+				{% else %}
 				<a href="" class="button button-primary">Apply</a>
+				{% endif %}
 			</li>
 			{% endfor %}
-		  -->
+		<!-- 
+		####ADD LINK FOR APPLY BUTTON IN ELSE BLOCK ###
+		-->
+		<!-- endfor  -->
         </ul>
       </div>
 
@@ -50,19 +57,21 @@
       <div class="circle--secondary--module">
         <h3>Project Needs</h3>
         <ul class="circle--link--list">
-          <li><a>iOS Developer</a></li>
-          <li><a>Designer</a></li>
+		<!-- Link goes to applications page with position as context -->
+		  {% for position in project.positions %}
+          <li><a>{{ position.name }}</a></li>
+          {% endfor %}
         </ul>
       </div>
 
       <div class="circle--secondary--module">
         <h3>Project Timeline</h3>
-        <p>10 hours</p>
+        <p>{{ project.time }}</p>
       </div>
 
       <div class="circle--secondary--module">
         <h3>Applicant Requirements</h3>
-        <p>Applicants are required to work from our headquarters located in Antarctica.</p>
+        <p>{{ project.requirements }}</p>
       </div>
 
     </div>
