@@ -2,6 +2,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.forms import ModelForm
 from . import models
 
 
@@ -19,8 +20,14 @@ class UserCreateForm(UserCreationForm):
         self.fields["email"].label = 'Email Address'
 
 
-class UserUpdateForm(UserChangeForm):
+# class UserUpdateForm(UserChangeForm):
+#    class Meta:
+#        model = get_user_model()
+#        # fields = '__all__'
+#        fields = ("display_name", "bio", "avatar")
+
+
+class SkillCreateForm(ModelForm):
     class Meta:
-        model = get_user_model()
-        # fields = '__all__'
-        fields = ("display_name", "bio", "avatar")
+        model = models.Skill
+        fields = ("name",)

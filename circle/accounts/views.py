@@ -85,9 +85,9 @@ class ProfileDetailView(generic.DetailView):
         # Call the base implementation first to get a context
         context = super(ProfileDetailView, self).get_context_data(**kwargs)
         # Add in projects context.
-        model = self.model
-        # context['projects'] = Project.objects.filter(creator_id=model.id)
-        context['projects'] = Project.objects.all()
+        model = self.request.user
+        context['projects'] = Project.objects.filter(creator_id=model.id)
+        # context['projects'] = Project.objects.all()
         # Should be able to query this from the user,
         # which means no reason to query projects at all.
         # context['some_second_thing'] = SecondThing.objects.all()
