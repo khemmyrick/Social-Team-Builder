@@ -84,10 +84,12 @@ class ProfileDetailView(DetailView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(ProfileDetailView, self).get_context_data(**kwargs)
-        # Add in seperate QuerySet ?
+        # Add in projects context.
         model = self.model
-        context['projects'] = Project.objects.filter(creator_id=model.id)
-        # context['projects'] = Project.objects.all()
+        # context['projects'] = Project.objects.filter(creator_id=model.id)
+        context['projects'] = Project.objects.all()
+        # context['some_second_thing'] = SecondThing.objects.all()
+        # I know how dicts work!
         return context
 
 

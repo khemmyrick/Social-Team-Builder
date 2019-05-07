@@ -15,7 +15,7 @@ class Project(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 related_name="projects",
                                 on_delete=models.PROTECT)
-    requirements = models.CharField(max_length=500)
+    requirements = models.CharField(max_length=500, blank=True, null=True)
     # project.positions to query positions.
 
     def __str__(self):
@@ -43,7 +43,7 @@ class Position(models.Model):
     # user field will be blank until position is filled
     skills = models.ManyToManyField(Skill)
     # skills = foreign key for skills required
-    time = models.CharField(max_length=100)
+    time = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.name
