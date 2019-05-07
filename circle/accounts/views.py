@@ -78,12 +78,15 @@ def profile_update_view(request, pk):
         skill_formset = SkillFormSet()
 
     context = {
-        'profile_form': profile_form,
+        'form': profile_form,
         'skill_formset': skill_formset,
     }
+    print('User is: {}'.format(context['form'].user.display_name))
+    print('Skill formsets: {}'.format(context['skill_formset']))
 
     return render(request, 'accounts/user_form.html', context)
-    # Form renders... placeholders missing...?
+    # User context working.
+    # Adjust skill context next.
 
 
 class LogInView(generic.FormView):

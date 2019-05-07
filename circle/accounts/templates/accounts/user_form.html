@@ -24,10 +24,10 @@
 		  </div>
 		</div>
 
-		<div class="grid-70">
-		  <!-- FORM display_name field --><input type="text" placeholder="{{ form.display_name.value }}" class="circle--input--h1">
+		<div class="grid-70">{{ form.display_name.value }}
+		  <!-- FORM display_name field --><input type="text" placeholder="{{ form.user.display_name }}" class="circle--input--h1">
 		  <div class="circle--article--body">
-			<!-- FORM bio field --><textarea placeholder="{{ form.bio.value }}"></textarea>
+			<!-- FORM bio field --><textarea placeholder="{{ form.user.bio }}"></textarea>
 		  </div>
 
 		  <h2>Past Projects</h2>
@@ -64,7 +64,7 @@
 		  <div class="circle--secondary--module">
 			<div class="circle--primary--avatar">
 			  <a class="button">
-			    {{ form.avatar.value }}
+			    {{ form.user.avatar }}
 				Upload Photo
 				<input type="file">
 			  </a>
