@@ -42,7 +42,7 @@
         </thead>
         <tbody>
 		  <!-- Iterate through projects queryset here.  -->
-		  {% comment %}
+
 		  {% for position in user.positions.all %}
           <tr class="clickable-row" data-href="{% url 'projects:project' pk=position.project.id %}">
             <td>
@@ -53,7 +53,7 @@
             </td>
           </tr>
           {% endfor %}
-		  {% endcomment %}
+
 		  <!-- End Past Project loopblock here. -->
         </tbody>
       </table>

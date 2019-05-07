@@ -6,8 +6,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
 from django.views import generic
-from django.views.generic.edit import UpdateView
-from django.views.generic.detail import DetailView
+# from django.views.generic.edit import UpdateView
+# from django.views.generic.detail import DetailView
 from django.shortcuts import render
 from django.db.models import Q
 from django.http import Http404
@@ -77,7 +77,7 @@ class SignUpView(generic.CreateView):
     # *MUST ADD* actual validation email when deploying to live website. #####
 
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(generic.DetailView):
     permission_classes = (permissions.IsAuthenticated,)
     model = get_user_model()
 
@@ -88,12 +88,14 @@ class ProfileDetailView(DetailView):
         model = self.model
         # context['projects'] = Project.objects.filter(creator_id=model.id)
         context['projects'] = Project.objects.all()
+        # Should be able to query this from the user,
+        # which means no reason to query projects at all.
         # context['some_second_thing'] = SecondThing.objects.all()
         # I know how dicts work!
         return context
 
 
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(generic.UpdateView):
     model = get_user_model()
     fields = ("display_name", "bio", "avatar")
 
