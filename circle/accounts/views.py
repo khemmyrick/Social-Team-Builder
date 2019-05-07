@@ -3,8 +3,10 @@ from django.contrib.auth import get_user_model
 # Custom user is in settings import.
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
+from django.forms.formsets import formset_factory
 from django.views import generic
 # from django.views.generic.edit import UpdateView
 # from django.views.generic.detail import DetailView
@@ -19,10 +21,71 @@ from rest_framework.response import Response
 # from accounts.models import Skill
 # from .serializers import UserSerializer
 from . import forms
+from accounts.models import User, Skill
 from projects.models import Project
 
 
 # Create your views here.
+@login_required
+def profile_update_view(request, pk):
+    """
+    Allows a user to update their own profile.
+    """
+    # user = request.user
+    user = User.objects.get(id=pk)
+
+    # Create the formset, specifying the form and formset we want to use.
+    SkillFormSet = formset_factory(forms.SkillCreateForm, formset=forms.BaseSkillFormSet)
+
+    # Get our existing skill data for this user.  This is used as initial data.
+    # user_skills = Skill.objects.filter(users_contain=user).first().order_by('name')
+    user_skills = user.skill_set.order_by('name')
+    # LINE ABOVE GIVING TROUBLE 5/7/2019 @ 1:40pm
+    if request.method == 'POST':
+        profile_form = forms.UserUpdateForm(request.POST, user=user)
+        skill_formset = forms.SkillFormSet(request.POST)
+
+        if profile_form.is_valid() and skill_formset.is_valid():
+            # Save user info
+            user.display_name = profile_form.cleaned_data.get('display_name')
+            user.bio = profile_form.cleaned_data.get('bio')
+            user.avatar = profile_form.cleaned_data.get('avatar')
+            user.save()
+
+            # Now save the data for each form in the formset
+            new_skills = []
+
+            for skill_form in skill_formset:
+                name = skill_form.cleaned_data.get('name')
+                if name:
+                    new_skills.append(Skill(name=name, user=user))
+
+            try:
+                with transaction.atomic():
+                    #Replace the old with the new
+                    Skill.objects.bulk_create(new_skills)
+
+                    # And notify our users that it worked
+                    messages.success(request, 'You have updated your profile!')
+
+            except IntegrityError: #If the transaction failed
+                messages.error(request, 'There was an error saving your profile.')
+                return redirect(reverse('accounts:edit', pk=pk))
+
+    else:
+        profile_form = forms.UserUpdateForm(user=user)
+        # unexpected keyword argument 'user'
+        skill_formset = SkillFormSet()
+
+    context = {
+        'profile_form': profile_form,
+        'skill_formset': skill_formset,
+    }
+
+    return render(request, 'accounts/user_form.html', context)
+    # Form renders... placeholders missing...?
+
+
 class LogInView(generic.FormView):
     form_class = AuthenticationForm
     success_url = reverse_lazy("home")
@@ -95,9 +158,9 @@ class ProfileDetailView(generic.DetailView):
         return context
 
 
-class ProfileUpdateView(generic.UpdateView):
-    model = get_user_model()
-    fields = ("display_name", "bio", "avatar")
+# class ProfileUpdateView(generic.UpdateView):
+#    model = get_user_model()
+#    fields = ("display_name", "bio", "avatar")
 
 
 class ApplicationsView():
