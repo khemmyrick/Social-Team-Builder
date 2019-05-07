@@ -1,11 +1,20 @@
 {% extends "layout.html" %}
 
+<!-- If search context: -->
+{% block title_tag %}Search | {{ block.super }} {% endblock %}
+<!-- Else: -->
+{% block title_tag %}Home | {{ block.super }} {% endblock %}
+<!-- endif -->
 {% block body %}
   <div class="bounds circle--page">
     <div class="circle--page--header circle--fluid">
       <div class="circle--fluid--cell circle--fluid--primary">
+	  <!-- If search context: -->
         <h2>Search</h2>
         <p>Search research for: <span class="secondary-label">sass</span></p>
+	  <!-- Else -->
+	    <h2>Projects</h2>
+	  <!-- End If -->
       </div>
       <div class="circle--fluid--cell circle--fluid--secondary">
         <a class="button button-primary icon-on-left" href="project_new.html">

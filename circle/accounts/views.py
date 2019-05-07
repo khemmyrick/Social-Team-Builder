@@ -19,6 +19,7 @@ from rest_framework.response import Response
 # from accounts.models import Skill
 # from .serializers import UserSerializer
 from . import forms
+from projects.models import Project
 
 
 # Create your views here.
@@ -82,22 +83,17 @@ class ProfileDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
-        context = super(
-            ProfileDetailView,
-            self
-        ).get_context_data(**kwargs)
+        context = super(ProfileDetailView, self).get_context_data(**kwargs)
         # Add in seperate QuerySet ?
-        # context['user'] = model.objects.prefetch_related(
-        # 'positions',
-        # 'projects',
-        # 'skills'
-        # )
+        model = self.model
+        context['projects'] = Project.objects.filter(creator_id=model.id)
+        # context['projects'] = Project.objects.all()
         return context
 
 
 class ProfileUpdateView(UpdateView):
     model = get_user_model()
-    pass
+    fields = ("display_name", "bio", "avatar")
 
 
 class ApplicationsView():
