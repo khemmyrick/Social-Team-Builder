@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title_tag %}Edit {{ user.username }} Details | {{ block.super }}{% endblock %}
+{% block title_tag %}Edit {{ form.user.username }} Details | {{ block.super }}{% endblock %}
 {% block body %}
   <div class="circle--actions--bar">
     <nav class="bounds">
@@ -12,7 +12,7 @@
       </ul>
     </nav>
   </div>
-  <form method="POST" enctype="multipart/form-data">{% comment %}action="{% url 'accounts:edit' pk=user.pk %}" {% endcomment %}
+  <form method="POST" enctype="multipart/form-data" action="">{% comment %}action="{% url 'accounts:edit' pk=user.pk %}" {% endcomment %}
     {% csrf_token %}
 	{% comment %}{{ form.as_p }}{% endcomment %}
 	  <div class="bounds circle--page">
@@ -21,7 +21,7 @@
 			<h2>Profile</h2>
 		  </div>
 		  <div class="circle--fluid--cell circle--fluid--secondary">
-			<button type="submit" form="user_form" class="button button-primary">Save Changes</button>
+			<button type="submit" form="user_form" class="button button-primary" action="">Save Changes</button>
 		  </div>
 		</div>
 		<div class="grid-70">
