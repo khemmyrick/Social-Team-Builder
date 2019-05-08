@@ -12,7 +12,7 @@ from django.views import generic
 # from django.views.generic.detail import DetailView
 from django.shortcuts import render
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 from rest_framework import generics, permissions, status
@@ -35,12 +35,10 @@ def profile_update_view(request, pk):
     user = User.objects.get(id=pk)
 
     # Create the formset, specifying the form and formset we want to use.
-    SkillFormSet = formset_factory(forms.SkillCreateForm, formset=forms.BaseSkillFormSet)
+    SkillFormSet = formset_factory(forms.SkillForm, formset=forms.BaseSkillFormSet)
 
     # Get our existing skill data for this user.  This is used as initial data.
-    # user_skills = Skill.objects.filter(users_contain=user).first().order_by('name')
     user_skills = user.skill_set.order_by('name')
-    # LINE ABOVE GIVING TROUBLE 5/7/2019 @ 1:40pm
     if request.method == 'POST':
         profile_form = forms.UserUpdateForm(request.POST, user=user)
         skill_formset = forms.SkillFormSet(request.POST)
@@ -62,7 +60,7 @@ def profile_update_view(request, pk):
 
             try:
                 with transaction.atomic():
-                    #Replace the old with the new
+                    # Create new skills.
                     Skill.objects.bulk_create(new_skills)
 
                     # And notify our users that it worked
@@ -70,7 +68,9 @@ def profile_update_view(request, pk):
 
             except IntegrityError: #If the transaction failed
                 messages.error(request, 'There was an error saving your profile.')
-                return redirect(reverse('accounts:edit', pk=pk))
+                print("There was an error saving your profile.")
+                # Should this be reloading the edit template????
+                return HttpResponseRedirect(reverse('accounts:details', pk=pk))
 
     else:
         profile_form = forms.UserUpdateForm(user=user)
@@ -81,12 +81,11 @@ def profile_update_view(request, pk):
         'form': profile_form,
         'skill_formset': skill_formset,
     }
-    print('User is: {}'.format(context['form'].user.display_name))
-    print('Skill formsets: {}'.format(context['skill_formset']))
+    # Is this the initial load of the edit template?
 
     return render(request, 'accounts/user_form.html', context)
-    # User context working.
-    # Adjust skill context next.
+    # User form context working.
+    # Adjust skill formset context next.
 
 
 class LogInView(generic.FormView):

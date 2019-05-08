@@ -15,7 +15,6 @@ class UserCreateForm(UserCreationForm):
         model = get_user_model()
         fields = ('email', 'username', 'password1', 'password2')
 
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["email"].label = 'Email Address'
@@ -35,6 +34,18 @@ class SkillCreateForm(ModelForm):
     class Meta:
         model = models.Skill
         exclude = ("name",)
+
+
+class SkillForm(forms.Form):
+    """
+    Form for user skills
+    """
+    name = forms.CharField(
+                    max_length=200,
+                    widget=forms.TextInput(attrs={
+                        'placeholder': 'Skill Type',
+                    }),
+                    required=False)
 
 
 class BaseSkillFormSet(BaseFormSet):
