@@ -43,65 +43,66 @@ def profile_update_view(request, pk):
     user_skills = user.skill_set.order_by('name')
     print("3. Getting existing user skill data: {}".format(user_skills))
     # Make sure we're logged in as user editing this profile.
-    if session_user.id == user.id and request.method == 'POST':
-        print("4. Request method is post.")
-        form = forms.UserUpdateForm(request.POST) # request.Post was first arg?
-        # We aren't getting the new form data yet?
-        print("5. form should created.")
-        formset = SkillFormSet(request.POST)
-        print("6. formset created.")
-        print(form.as_p)
+    if session_user.id == user.id: 
+        if request.method == 'POST':
+            print("4. Request method is post.")
+            form = forms.UserUpdateForm(request.POST) # request.Post was first arg?
+            # We aren't getting the new form data yet?
+            print("5. form should created.")
+            formset = SkillFormSet(request.POST)
+            print("6. formset created.")
+            # print(form.as_p)
 
-        if form.is_valid() and formset.is_valid():
-            # Why isn't my form valid?
-            print("Profile form is valid!")
-            # Save user info
-            # user.display_name = form.cleaned_data.get('display_name')
-            user.display_name = form.cleaned_data['display_name']
-            print("We got a display name!")
-            # user.bio = form.cleaned_data.get('bio')
-            user.bio = form.cleaned_data['bio']
-            print("We got a bio!")
-            # user.avatar = form.cleaned_data.get('avatar')
-            user.avatar = form.cleaned_data['avatar']
-            print("We even got an avatar.")
-            user.save(commit=True)
-            print("This user should be in the database.")
+            if form.is_valid() and formset.is_valid():
+                # Why isn't my form valid?
+                print("Profile form is valid!")
+                # Save user info
+                # user.display_name = form.cleaned_data.get('display_name')
+                user.display_name = form.cleaned_data['display_name']
+                print("We got a display name!")
+                # user.bio = form.cleaned_data.get('bio')
+                user.bio = form.cleaned_data['bio']
+                print("We got a bio!")
+                # user.avatar = form.cleaned_data.get('avatar')
+                user.avatar = form.cleaned_data['avatar']
+                print("We even got an avatar.")
+                user.save(commit=True)
+                print("This user should be in the database.")
 
-            # Now save the data for each form in the formset
-            new_skills = []
+                # Now save the data for each form in the formset
+                new_skills = []
 
-            for skill_form in formset:
-                name = skill_form.cleaned_data.get('name')
-                if name:
-                    new_skills.append(Skill(name=name, user=user))
+                for skill_form in formset:
+                    name = skill_form.cleaned_data.get('name')
+                    if name:
+                        new_skills.append(Skill(name=name, user=user))
 
-            try:
-                print("Entering atomic block.")
-                with transaction.atomic():
-                    # Create new skills.
-                    Skill.objects.bulk_create(new_skills)
+                try:
+                    print("Entering atomic block.")
+                    with transaction.atomic():
+                        # Create new skills.
+                        Skill.objects.bulk_create(new_skills)
 
-                    # And notify our users that it worked
-                    messages.success(request, 'You have updated your profile!')
+                        # And notify our users that it worked
+                        messages.success(request, 'You have updated your profile!')
 
-            except IntegrityError: #If the transaction failed
-                messages.error(request, 'There was an error saving your profile.')
-                print("There was an error saving your profile.")
-                # Should this be reloading the edit template????
-                return HttpResponseRedirect(reverse('accounts:details', pk=pk))
+                except IntegrityError: #If the transaction failed
+                    messages.error(request, 'There was an error saving your profile.')
+                    print("There was an error saving your profile.")
+                    # Should this be reloading the edit template????
+                    return HttpResponseRedirect(reverse('accounts:details', pk=pk))
+            else:
+                print("Profile form is invalid.")
+
         else:
-            print("Profile form is invalid.")
-
-    else:
-        # We haven't made it to this block yet.
-        print("1. Else block runs when template is first loaded?")
-        # form = forms.UserUpdateForm(user=user)
-        form = forms.UserUpdateForm()
-        print("2. form is created.")
-        # unexpected keyword argument 'user'
-        formset = SkillFormSet()
-        print("3. formset is created.")
+            # We haven't made it to this block yet.
+            print("1. Else block runs when template is first loaded?")
+            # form = forms.UserUpdateForm(user=user)
+            form = forms.UserUpdateForm()
+            print("2. form is created.")
+            # unexpected keyword argument 'user'
+            formset = SkillFormSet()
+            print("3. formset is created.")
 
     context = {
         'form': form,
