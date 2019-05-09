@@ -43,15 +43,16 @@ def profile_update_view(request, pk):
     user_skills = user.skill_set.order_by('name')
     print("3. Getting existing user skill data: {}".format(user_skills))
     # Make sure we're logged in as user editing this profile.
-    if session_user.id == user.id: 
+    if session_user.id == user.id:
+        print('{} is indeed {}'.format(user.display_name,
+                                       session_user.display_name))
         if request.method == 'POST':
             print("4. Request method is post.")
-            form = forms.UserUpdateForm(request.POST) # request.Post was first arg?
+            form = forms.UserUpdateForm(request.POST)
             # We aren't getting the new form data yet?
             print("5. form should created.")
             formset = SkillFormSet(request.POST)
             print("6. formset created.")
-            # print(form.as_p)
 
             if form.is_valid() and formset.is_valid():
                 # Why isn't my form valid?
