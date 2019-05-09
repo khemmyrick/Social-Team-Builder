@@ -32,33 +32,50 @@ def profile_update_view(request, pk):
     Allows a user to update their own profile.
     """
     # user = request.user
+    print("1. Getting user object.")
     user = User.objects.get(id=pk)
 
     # Create the formset, specifying the form and formset we want to use.
     SkillFormSet = formset_factory(forms.SkillForm, formset=forms.BaseSkillFormSet)
+    print("2. Skill Formset factory should be created.")
 
     # Get our existing skill data for this user.  This is used as initial data.
     user_skills = user.skill_set.order_by('name')
+    print("3. Getting existing user skill data: {}".format(user_skills))
     if request.method == 'POST':
-        profile_form = forms.UserUpdateForm(request.POST, user=user)
-        skill_formset = forms.SkillFormSet(request.POST)
+        print("4. Request method is post.")
+        form = forms.UserUpdateForm(user=user) # request.Post was first arg
+        print("5. form should created.")
+        formset = SkillFormSet(request.POST)
+        print("6. formset created.")
+        print(form.as_p)
 
-        if profile_form.is_valid() and skill_formset.is_valid():
+        if form.is_valid() and formset.is_valid():
+            # Why isn't my form valid?
+            print("Profile form is valid!")
             # Save user info
-            user.display_name = profile_form.cleaned_data.get('display_name')
-            user.bio = profile_form.cleaned_data.get('bio')
-            user.avatar = profile_form.cleaned_data.get('avatar')
+            # user.display_name = form.cleaned_data.get('display_name')
+            user.display_name = form.cleaned_data['display_name']
+            print("We got a display name!")
+            # user.bio = form.cleaned_data.get('bio')
+            user.bio = form.cleaned_data['bio']
+            print("We got a bio!")
+            # user.avatar = form.cleaned_data.get('avatar')
+            user.avatar = form.cleaned_data['avatar']
+            print("We even got an avatar.")
             user.save()
+            print("This user should be in the database.")
 
             # Now save the data for each form in the formset
             new_skills = []
 
-            for skill_form in skill_formset:
+            for skill_form in formset:
                 name = skill_form.cleaned_data.get('name')
                 if name:
                     new_skills.append(Skill(name=name, user=user))
 
             try:
+                print("Entering atomic block.")
                 with transaction.atomic():
                     # Create new skills.
                     Skill.objects.bulk_create(new_skills)
@@ -71,16 +88,23 @@ def profile_update_view(request, pk):
                 print("There was an error saving your profile.")
                 # Should this be reloading the edit template????
                 return HttpResponseRedirect(reverse('accounts:details', pk=pk))
+        else:
+            print("Profile form is invalid.")
 
     else:
-        profile_form = forms.UserUpdateForm(user=user)
+        # We haven't made it to this block yet.
+        print("1. Else block runs when template is first loaded?")
+        form = forms.UserUpdateForm(user=user)
+        print("2. form is created.")
         # unexpected keyword argument 'user'
-        skill_formset = SkillFormSet()
+        formset = SkillFormSet()
+        print("3. formset is created.")
 
     context = {
-        'form': profile_form,
-        'skill_formset': skill_formset,
+        'form': form,
+        'formset': formset,
     }
+    print("4. Context is created.")
     # Is this the initial load of the edit template?
 
     return render(request, 'accounts/user_form.html', context)

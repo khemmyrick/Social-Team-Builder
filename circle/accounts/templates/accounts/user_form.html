@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load staticfiles %}
 
 {% block title_tag %}Edit {{ form.user.username }} Details | {{ block.super }}{% endblock %}
 {% block body %}
@@ -12,7 +13,7 @@
       </ul>
     </nav>
   </div>
-  <form method="POST" enctype="multipart/form-data" action="">{% comment %}action="{% url 'accounts:edit' pk=user.pk %}" {% endcomment %}
+  <form method="POST" enctype="multipart/form-data" action="{% url 'accounts:edit' pk=form.user.pk %}" id="profile">{% comment %}action="{% url 'accounts:edit' pk=user.pk %}" {% endcomment %}
     {% csrf_token %}
 	{% comment %}{{ form.as_p }}{% endcomment %}
 	  <div class="bounds circle--page">
@@ -21,13 +22,15 @@
 			<h2>Profile</h2>
 		  </div>
 		  <div class="circle--fluid--cell circle--fluid--secondary">
-			<button type="submit" form="user_form" class="button button-primary" action="">Save Changes</button>
+			<button type="submit" class="button button-primary" form="profile" action="">Save Changes</button>
 		  </div>
 		</div>
 		<div class="grid-70">
-		  <!-- FORM display_name field --><input type="text" placeholder="{{ form.user.display_name }}" class="circle--input--h1">
+		  <!-- FORM display_name field -->
+		  {{ form.user.display_name.errors }}
+		  <input type="text" placeholder="{{ form.user.display_name }}" class="circle--input--h1" form="profile">
 		  <div class="circle--article--body">
-			<!-- FORM bio field --><textarea placeholder="{{ form.user.bio }}"></textarea>
+			<!-- FORM bio field --><textarea placeholder="{{ form.user.bio }}" form="profile"></textarea>
 		  </div>
 		  <h2>Past Projects</h2>
 		  <table class="u-full-width circle--table">
@@ -72,18 +75,18 @@
 		  <div class="circle--secondary--module">
 			<h4>My Skills</h4>
 			<ul class="circle--clone--list">
-			{% comment %}{% if form.skills.value != None %}{% endcomment %}
-			{% if skill_formset.items %}
-			{% for item in skill_formset.items %}
+			{{ formset.management_form }}
+			{% if formset.items != None %}
+			{% for skill in formset %}
 			  <li>
-				<input type="text" placeholder="{{ item.name }}" />
+				<input type="text" placeholder="{{ skill.name }}" form="profile" />
 				<a class="circle--clone--add">Add Skill</a>
 				<a class="circle--clone--remove">Remove</a>
 			  </li>
 			{% endfor %}
 			{% else %}
 			  <li>
-				<input type="text" placeholder="Skill Label" />
+				<input type="text" placeholder="Skill Label" form="profile" />
 				<a class="circle--clone--add">Add Skill</a>
 				<a class="circle--clone--remove">Remove</a>
 			  </li>

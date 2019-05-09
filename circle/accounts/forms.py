@@ -22,7 +22,9 @@ class UserCreateForm(UserCreationForm):
 
 class UserUpdateForm(UserChangeForm):
     def __init__(self, user):
-        self.user = user
+        super(UserUpdateForm, self).__init__()
+        if user:
+            self.user = user
 
     class Meta:
         model = get_user_model()
