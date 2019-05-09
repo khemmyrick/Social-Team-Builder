@@ -1,10 +1,13 @@
 from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import (UserCreationForm, UserChangeForm,
+                                       ReadOnlyPasswordHashField)
 from django.core import validators
 from django.forms import ModelForm
 from django.forms.formsets import BaseFormSet
+from django.utils.translation import ugettext, ugettext_lazy as _
+
 from . import models
 
 
@@ -22,6 +25,17 @@ class MegaBuster(object):
                                 )
 
 
+class HeadingInputWidget(forms.TextInput):
+    """
+    Apply custom css to heading input widget.
+    """
+    class Media:
+        css = {
+            'all': ('edit.css',)
+        }
+        # values in css dict are tuples. don't forget that comma!
+
+
 class UserCreateForm(MegaBuster, UserCreationForm):
     email = forms.EmailField(max_length=1000, help_text='Required')
 
@@ -37,10 +51,21 @@ class UserCreateForm(MegaBuster, UserCreationForm):
 
 
 class UserUpdateForm(MegaBuster, UserChangeForm):
-    def __init__(self, user):
-        super(UserUpdateForm, self).__init__()
-        if user:
-            self.user = user
+    # def __init__(self, user):
+    #    super(UserUpdateForm, self).__init__()
+    #    if user:
+    #        self.user = user
+
+    display_name = forms.CharField(max_length=140,
+                                   widget=HeadingInputWidget(attrs={
+                                        'placeholder': 'Display Name',
+                                        # 'value': display_name_variable_here
+                                   }),
+                                   required=False)
+    # password = ReadOnlyPasswordHashField(label=_("Password"),
+    #    help_text=_("Raw passwords are not stored, so there is no way to see "
+    #                "this user's password, but you can change the password "
+    #                "using <a href=\"../password/\">this form</a>."))
 
     class Meta:
         model = get_user_model()
@@ -48,6 +73,12 @@ class UserUpdateForm(MegaBuster, UserChangeForm):
         fields = ("display_name", "bio", "avatar")
         # def clean(self) would only be needed IF 
         # we were comparing 2 or more fields to eachother.
+
+    # def clean_password(self):
+    #    # Regardless of what the user provides, return the initial value.
+    #    # This is done here, rather than on the field, because the
+    #    # field does not have access to the initial value
+    #    return self.initial["password"]
 
 
 class SkillCreateForm(MegaBuster, ModelForm):

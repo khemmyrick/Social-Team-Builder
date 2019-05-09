@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% load staticfiles %}
 
-{% block title_tag %}Edit {{ form.user.username }} Details | {{ block.super }}{% endblock %}
+{% block title_tag %}Edit {{ form.username }} Details | {{ block.super }}{% endblock %}
 {% block body %}
   <div class="circle--actions--bar">
     <nav class="bounds">
@@ -13,7 +13,7 @@
       </ul>
     </nav>
   </div>
-  <form method="POST" enctype="multipart/form-data" action="{% url 'accounts:edit' pk=form.user.pk %}" id="profile">{% comment %}action="{% url 'accounts:edit' pk=user.pk %}" {% endcomment %}
+  <form method="POST" enctype="multipart/form-data" action="{% url 'accounts:edit' pk=user.id %}" id="profile">{% comment %}action="{% url 'accounts:edit' pk=user.pk %}" {% endcomment %}
     {% csrf_token %}
 	{% comment %}{{ form.as_p }}{% endcomment %}
 	  <div class="bounds circle--page">
@@ -27,10 +27,11 @@
 		</div>
 		<div class="grid-70">
 		  <!-- FORM display_name field -->
-		  {{ form.user.display_name.errors }}
-		  <input type="text" placeholder="{{ form.user.display_name }}" value="{{ form.user.display_name }}" class="circle--input--h1" form="profile">
+		  {{ form.display_name.errors }}
+		  {{ form.display_name }}
+		  {% comment %}<input type="text" placeholder="{{ form.display_name }}" value="{{ form.display_name }}" class="circle--input--h1" form="profile">{% endcomment %}
 		  <div class="circle--article--body">
-			<!-- FORM bio field --><textarea placeholder="{{ form.user.bio }}" form="profile">{{ form.user.bio }}</textarea>
+			<!-- FORM bio field -->{{ form.bio }}{% comment %}<textarea placeholder="{{ form.bio }}" form="profile">{{ form.bio }}</textarea>{% endcomment %}
 		  </div>
 		  <h2>Past Projects</h2>
 		  <table class="u-full-width circle--table">
@@ -66,7 +67,7 @@
 		  <div class="circle--secondary--module">
 			<div class="circle--primary--avatar">
 			  <a class="button">
-			    {{ form.user.avatar }}
+			    {{ form.avatar }}
 				Upload Photo
 				<input type="file">
 			  </a>

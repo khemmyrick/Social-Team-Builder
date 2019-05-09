@@ -31,7 +31,7 @@ def profile_update_view(request, pk):
     """
     Allows a user to update their own profile.
     """
-    # user = request.user
+    session_user = request.user
     print("1. Getting user object.")
     user = User.objects.get(id=pk)
 
@@ -42,10 +42,10 @@ def profile_update_view(request, pk):
     # Get our existing skill data for this user.  This is used as initial data.
     user_skills = user.skill_set.order_by('name')
     print("3. Getting existing user skill data: {}".format(user_skills))
-    if request.method == 'POST':
+    # Make sure we're logged in as user editing this profile.
+    if session_user.id == user.id and request.method == 'POST':
         print("4. Request method is post.")
-        form = forms.UserUpdateForm(user=user) # request.Post was first arg
-        print("Form type: {}. Posted user?: {}".format(type(form), form.user.display_name))
+        form = forms.UserUpdateForm(request.POST) # request.Post was first arg?
         # We aren't getting the new form data yet?
         print("5. form should created.")
         formset = SkillFormSet(request.POST)
@@ -96,7 +96,8 @@ def profile_update_view(request, pk):
     else:
         # We haven't made it to this block yet.
         print("1. Else block runs when template is first loaded?")
-        form = forms.UserUpdateForm(user=user)
+        # form = forms.UserUpdateForm(user=user)
+        form = forms.UserUpdateForm()
         print("2. form is created.")
         # unexpected keyword argument 'user'
         formset = SkillFormSet()
