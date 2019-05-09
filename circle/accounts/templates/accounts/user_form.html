@@ -28,9 +28,9 @@
 		<div class="grid-70">
 		  <!-- FORM display_name field -->
 		  {{ form.user.display_name.errors }}
-		  <input type="text" placeholder="{{ form.user.display_name }}" class="circle--input--h1" form="profile">
+		  <input type="text" placeholder="{{ form.user.display_name }}" value="{{ form.user.display_name }}" class="circle--input--h1" form="profile">
 		  <div class="circle--article--body">
-			<!-- FORM bio field --><textarea placeholder="{{ form.user.bio }}" form="profile"></textarea>
+			<!-- FORM bio field --><textarea placeholder="{{ form.user.bio }}" form="profile">{{ form.user.bio }}</textarea>
 		  </div>
 		  <h2>Past Projects</h2>
 		  <table class="u-full-width circle--table">

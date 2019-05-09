@@ -45,6 +45,8 @@ def profile_update_view(request, pk):
     if request.method == 'POST':
         print("4. Request method is post.")
         form = forms.UserUpdateForm(user=user) # request.Post was first arg
+        print("Form type: {}. Posted user?: {}".format(type(form), form.user.display_name))
+        # We aren't getting the new form data yet?
         print("5. form should created.")
         formset = SkillFormSet(request.POST)
         print("6. formset created.")
@@ -63,7 +65,7 @@ def profile_update_view(request, pk):
             # user.avatar = form.cleaned_data.get('avatar')
             user.avatar = form.cleaned_data['avatar']
             print("We even got an avatar.")
-            user.save()
+            user.save(commit=True)
             print("This user should be in the database.")
 
             # Now save the data for each form in the formset
