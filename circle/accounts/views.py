@@ -43,6 +43,7 @@ def profile_update_view(request, pk):
 
     # Get our existing skill data for this user.  This is used as initial data.
     user_skills = user.skill_set.order_by('name')
+    skill_data = [{'name': skill.name} for skill in user_skills]
     print("3. Getting existing user skill data: {}".format(user_skills))
     # Make sure we're logged in as user editing this profile.
     if session_user.id == user.id:
@@ -79,16 +80,27 @@ def profile_update_view(request, pk):
                 for skill_form in formset:
                     name = skill_form.cleaned_data.get('name')
                     if name:
-                        new_skills.append(Skill(name=name, user=user))
+                        new_skills.append(Skill(name=name))
+                        # Prepare to instantiate skills without m2m values.
+                        # Must save instances first.
 
                 try:
                     print("Entering atomic block.")
                     with transaction.atomic():
                         # Create new skills.
-                        Skill.objects.bulk_create(new_skills)
+                        # Skill.objects.bulk_create(new_skills)
+                        # https://docs.djangoproject.com/en/1.9/ref/models/querysets/
+                        # bulk_create's caveats notably include:
+                        # does NOT work with many-to-many relationships.
 
+                        # plan B:
+                        for skill in new_skills:
+                            print("Creating/saving {}".format(skill.name))
+                            skill.save()
+                            skill.users.add(user.id)
                         # And notify our users that it worked
                         messages.success(request, 'You have updated your profile!')
+                        print("You have updated your profile.")
 
                 except IntegrityError: #If the transaction failed
                     messages.error(request, 'There was an error saving your profile.')
@@ -105,7 +117,7 @@ def profile_update_view(request, pk):
             form = forms.UserUpdateForm()
             print("2. form is created.")
             # unexpected keyword argument 'user'
-            formset = SkillFormSet()
+            formset = SkillFormSet(initial=skill_data)
             print("3. formset is created.")
 
     context = {

@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 
-<!-- If search context: -->
+{% comment %}<!-- If search context: -->
 {% block title_tag %}Search | {{ block.super }} {% endblock %}
-<!-- Else: -->
+{% endcomment %}<!-- Else: -->
 {% block title_tag %}Home | {{ block.super }} {% endblock %}
 <!-- endif -->
 {% block body %}

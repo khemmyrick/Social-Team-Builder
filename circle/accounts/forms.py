@@ -82,13 +82,13 @@ class UserUpdateForm(MegaBuster, UserChangeForm):
     #    return self.initial["password"]
 
 
-class SkillCreateForm(MegaBuster, ModelForm):
+class SkillCreateForm(ModelForm):
     class Meta:
         model = models.Skill
         exclude = ("name",)
 
 
-class SkillForm(MegaBuster, forms.Form):
+class SkillForm(forms.Form):
     """
     Form for user skills
     """
