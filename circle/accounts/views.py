@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 # Custom user is in settings import.
 from django.contrib.auth import login, logout
@@ -11,6 +12,7 @@ from django.views import generic
 # from django.views.generic.edit import UpdateView
 # from django.views.generic.detail import DetailView
 from django.shortcuts import render
+from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -48,9 +50,10 @@ def profile_update_view(request, pk):
                                        session_user.display_name))
         if request.method == 'POST':
             print("4. Request method is post.")
-            form = forms.UserUpdateForm(request.POST)
+            form = forms.UserUpdateForm(request.POST, instance=user)
+            # form needs instance, else it makes new instance.
             # We aren't getting the new form data yet?
-            print("5. form should created.")
+            print("5. form should be created.")
             formset = SkillFormSet(request.POST)
             print("6. formset created.")
 
@@ -67,7 +70,7 @@ def profile_update_view(request, pk):
                 # user.avatar = form.cleaned_data.get('avatar')
                 user.avatar = form.cleaned_data['avatar']
                 print("We even got an avatar.")
-                user.save(commit=True)
+                user.save()
                 print("This user should be in the database.")
 
                 # Now save the data for each form in the formset

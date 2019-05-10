@@ -62,6 +62,7 @@ class UserUpdateForm(MegaBuster, UserChangeForm):
                                         # 'value': display_name_variable_here
                                    }),
                                    required=False)
+    password = None
     # password = ReadOnlyPasswordHashField(label=_("Password"),
     #    help_text=_("Raw passwords are not stored, so there is no way to see "
     #                "this user's password, but you can change the password "
