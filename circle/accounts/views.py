@@ -201,7 +201,7 @@ class ProfileDetailView(generic.DetailView):
         context = super(ProfileDetailView, self).get_context_data(**kwargs)
         # Add in projects context.
         model = self.request.user
-        print('Avatar: {}'.format(model.avatar))
+        print('Avatar Path: {}'.format(model.avatar))
         context['projects'] = Project.objects.filter(creator_id=model.id)
         # context['projects'] = Project.objects.all()
         # Should be able to query this from the user,
