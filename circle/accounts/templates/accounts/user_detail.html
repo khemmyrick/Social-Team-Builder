@@ -62,9 +62,8 @@
     <div class="grid-25 grid-push-5">
 
       <div class="circle--secondary--module">
-        <div class="circle--primary--avatar">
-			<a href="{{ user.avatar.path|default_if_none:'#' }}"><img src="{{ user.avatar.path|default_if_none:'#' }}" alt="{{ user.display_name }}"></a>
-
+        <div class="circle--primary--avatar">{% if user.avatar %}
+			<img src="{{ user.avatar.url|default_if_none:'#' }}" alt="{{ user.display_name }}">{% endif %}
         </div>
       </div>
 

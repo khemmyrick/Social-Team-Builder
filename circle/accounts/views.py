@@ -201,13 +201,10 @@ class ProfileDetailView(generic.DetailView):
         context = super(ProfileDetailView, self).get_context_data(**kwargs)
         # Add in projects context.
         model = self.request.user
-        print('Avatar Path: {}'.format(model.avatar))
+        # print('Avatar Path: {}'.format(model.avatar))
         context['projects'] = Project.objects.filter(creator_id=model.id)
-        # context['projects'] = Project.objects.all()
-        # Should be able to query this from the user,
-        # which means no reason to query projects at all.
-        # context['some_second_thing'] = SecondThing.objects.all()
-        # I know how dicts work!
+        # Should be able to query this from the user?
+        # if so, no reason to query projects at all.
         return context
 
 
