@@ -86,12 +86,15 @@
 						{{ error|escape }}
 					{% endfor %}
 				{% endif %}
+				<a class="circle--clone--add">Add Skill</a>
+				<a class="circle--clone--remove">Remove</a>
 				
 				{% comment %}<!---------------------------------  <input type="text" placeholder="{{ skill.name }}" form="profile" />
 				<a class="circle--clone--add">Add Skill</a>
 				<a class="circle--clone--remove">Remove</a>
 				------------------------------------------------>
 				{% endcomment %}
+				<!-- if I want to use anchor classes above, may need to not use JS solution below! -->
 			  </li>
 			{% endfor %}
 			</ul>
@@ -119,6 +122,7 @@
 
 	  </div>
   </form>
+  <!-- Try to use default project js and css as much as possible...
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src={% static 'js/jquery.formset' %}></script>
 <script>
@@ -127,4 +131,5 @@
 		deleteText: 'Remove'
 	});
 </script>
+-->
 {% endblock %}

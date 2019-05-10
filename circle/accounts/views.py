@@ -83,21 +83,27 @@ def profile_update_view(request, pk):
                         new_skills.append(Skill(name=name))
                         # Prepare to instantiate skills without m2m values.
                         # Must save instances first.
+                        # use skill_data to target existing skills for deletion
 
                 try:
                     print("Entering atomic block.")
                     with transaction.atomic():
+                        # Delete existing skills.
+                        for skill in skill_data:
+                            obj = Skill.objects.get(name=skill['name'])
+                            obj.users.remove(user.id)                            
                         # Create new skills.
-                        # Skill.objects.bulk_create(new_skills)
-                        # https://docs.djangoproject.com/en/1.9/ref/models/querysets/
-                        # bulk_create's caveats notably include:
-                        # does NOT work with many-to-many relationships.
-
-                        # plan B:
                         for skill in new_skills:
-                            print("Creating/saving {}".format(skill.name))
-                            skill.save()
-                            skill.users.add(user.id)
+                            obj, _ = Skill.objects.get_or_create(
+                                name=skill.name
+                            )
+                            obj.save()
+                            print("Creating/opening. {}".format(obj.name))
+                            obj.users.add(user.id)
+                            # Using add() on a relation that already exists won’t duplicate the relation,
+                            print("Added {} to {}'s skills.".format(
+                                obj.name, user.display_name
+                            ))
                         # And notify our users that it worked
                         messages.success(request, 'You have updated your profile!')
                         print("You have updated your profile.")
