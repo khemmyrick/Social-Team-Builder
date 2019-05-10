@@ -47,6 +47,8 @@ class UserUpdateForm(MegaBuster, UserChangeForm):
                                         # 'value': display_name
                                    }),
                                    required=False)
+    avatar = forms.ImageField(widget=forms.ClearableFileInput(),
+                              required=False)
     password = None
 
     class Meta:

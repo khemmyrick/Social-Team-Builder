@@ -51,7 +51,7 @@ def profile_update_view(request, pk):
                                        session_user.display_name))
         if request.method == 'POST':
             print("4. Request method is post.")
-            form = forms.UserUpdateForm(request.POST, instance=user)
+            form = forms.UserUpdateForm(request.POST, request.FILES, instance=user)
             # form needs instance, else it makes new instance.
             # We aren't getting the new form data yet?
             print("5. form should be created.")
@@ -201,6 +201,7 @@ class ProfileDetailView(generic.DetailView):
         context = super(ProfileDetailView, self).get_context_data(**kwargs)
         # Add in projects context.
         model = self.request.user
+        print('Avatar: {}'.format(model.avatar))
         context['projects'] = Project.objects.filter(creator_id=model.id)
         # context['projects'] = Project.objects.all()
         # Should be able to query this from the user,

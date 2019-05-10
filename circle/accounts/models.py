@@ -4,8 +4,14 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.db import models
+from django.core.files.storage import FileSystemStorage
 from django.utils import timezone
 # Create your models here.
+
+# file_storage = FileSystemStorage(location='/media/photos')
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/<id>/<filename>
+    return 'accounts/{0}/{1}'.format(instance.pk, filename)
 
 
 class UserManager(BaseUserManager):
@@ -48,7 +54,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     # user.projects = queryset of projects this user created.
     # user.positions = queryset of positions this user holds/held.
     # user.applicants = queryset of positions currently being applied for.
-    avatar = models.ImageField(blank=True, null=True)
+    avatar = models.ImageField(blank=True, null=True,
+                               upload_to=user_directory_path)
+    # storage = file_storage
+    # Ideally store avatars in media/user.id
     date_joined = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
