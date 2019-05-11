@@ -1,27 +1,22 @@
 from django.conf import settings
+# Custom user is in settings import.
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-# Custom user is in settings import.
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
-from django.forms.formsets import formset_factory
-from django.views import generic
-# from django.views.generic.edit import UpdateView
-# from django.views.generic.detail import DetailView
-from django.shortcuts import render
 from django.db import IntegrityError, transaction
 from django.db.models import Q
+from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
+from django.views import generic
 
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
-# from accounts.models import Skill
-# from .serializers import UserSerializer
 from . import forms
 from accounts.models import User, Skill
 from projects.models import Project
@@ -164,30 +159,17 @@ class LogOutView(generic.RedirectView):
         return super().get(request, *args, **kwargs)
 
 
-# class UserRegisterView(generics.CreateAPIView):
-#    permission_classes = (permissions.AllowAny,)
-#    # AllowAny needed here, to create new user.
-#    model = get_user_model()
-#
-#    def post(self, request, format=None):
-#        serializer = UserSerializer(data=request.data)
-#        serializer.is_valid(raise_exception=True)
-#        user = serializer.save()
-#        UserManager.create_user(user)
-#        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
 class SignUpView(generic.CreateView):
-    # Model handled in form...  model = get_user_model()
-    # Fields handled in form... fields = []
+    # Model handled in form.
     permission_classes = (permissions.AllowAny,)
     form_class = forms.UserCreateForm
     success_url = reverse_lazy('login')
-    # For EXCEEDS put email validation here.
+    template_name = 'accounts/signup.html'
+    # For EXCEEDS initiate email validation here.
     # 1. create user as inactive by default.
     # 2. "email" user a file with first 5 digits of token for "verification code".
+    # 2.5. or use some other django package to make that easier
     # 3. have user enter verification code to activate account.
-    template_name = 'accounts/signup.html'
     # Sim validation email with EMAIL_BACKEND and EMAIL_FILE_PATH settings
     # *MUST ADD* actual validation email when deploying to live website. #####
 
@@ -206,11 +188,6 @@ class ProfileDetailView(generic.DetailView):
         # Should be able to query this from the user?
         # if so, no reason to query projects at all.
         return context
-
-
-# class ProfileUpdateView(generic.UpdateView):
-#    model = get_user_model()
-#    fields = ("display_name", "bio", "avatar")
 
 
 class ApplicationsView():

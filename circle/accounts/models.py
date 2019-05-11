@@ -47,7 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     # Yes, PermissionsMixin comes 2nd in the docs, so that's how we do it.
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=40, unique=True)
-    display_name = models.CharField(max_length=140, blank=True, null=True)
+    display_name = models.CharField(max_length=140, blank=True)
     bio = models.CharField(max_length=500, blank=True, default="")
     # Reverse foreignkey/manytomany attributes:
     # user.skill_set = allows user to query skills
