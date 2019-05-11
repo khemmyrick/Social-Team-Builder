@@ -9,12 +9,12 @@
   <div class="bounds circle--page">
     <div class="circle--page--header circle--fluid">
       <div class="circle--fluid--cell circle--fluid--primary">
-	  <!-- If search context: -->
+	  <!-- If search context: -->{% if search %} <!-- Find real name for variable later-->
         <h2>Search</h2>
         <p>Search research for: <span class="secondary-label">sass</span></p>
-	  <!-- Else -->
+	  <!-- Else -->{% else %}
 	    <h2>Projects</h2>
-	  <!-- End If -->
+	  <!-- End If -->{% endif %}
       </div>
       <div class="circle--fluid--cell circle--fluid--secondary">
         <a class="button button-primary icon-on-left" href="project_new.html">

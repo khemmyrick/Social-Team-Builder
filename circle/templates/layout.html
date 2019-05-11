@@ -36,7 +36,7 @@
     <div class="bounds">
       <div class="circle--fluid">
         <div class="circle--fluid--cell">
-          <h1 class="hide-text circle--logo"><a class="logo" href="index.html">Djenga Circle</a></h1>
+          <h1 class="hide-text circle--logo"><a class="logo" href="{% url 'home' %}">Djenga Circle</a></h1>
         </div>
         <div class="circle--fluid--cell circle--fluid--primary">
 		
@@ -57,6 +57,7 @@
           <nav>
             <ul class="circle--inline">
 				{% if user.is_authenticated %}
+					<li><a href="{% url 'accounts:details' pk=user.id %}">Profile</a></li>
 					<li><a href="{% url 'accounts:logout' %}">Sign Out</a></li>
 				{% else %}
 					<li><a href="{% url 'accounts:signup' %}">Sign Up</a></li>
