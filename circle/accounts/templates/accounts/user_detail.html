@@ -64,7 +64,11 @@
       <div class="circle--secondary--module">
         <div class="circle--primary--avatar">
 		{% if user.avatar %}
-		  <img src="{{ user.avatar.url|default_if_none:'#' }}" alt="{{ user.display_name }}" width="200" height="200">{% endif %}
+		  <img src="{{ user.avatar.url|default_if_none:'#' }}" alt="{{ user.display_name }}" width="200" height="200">
+		  {% else %}
+		  <img src="{{MEDIA_URL}}/media/avatars/default.png" alt="{{ user.display_name }}" width="200" height="200"/>
+		  <!-- Default Avatar -->
+		{% endif %}
         </div>
       </div>
 

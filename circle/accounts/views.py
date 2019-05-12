@@ -39,6 +39,8 @@ def profile_update_view(request, pk):
     # Get our existing skill data for this user.  This is used as initial data.
     user_skills = user.skill_set.order_by('name')
     skill_data = [{'name': skill.name} for skill in user_skills]
+    # skill_data = [Skill(name=skill.name) for skill in user_skills]
+    
     print("3. Getting existing user skill data: {}".format(user_skills))
     # Make sure we're logged in as user editing this profile.
     if session_user.id == user.id:
@@ -75,10 +77,10 @@ def profile_update_view(request, pk):
                 for skill_form in formset:
                     name = skill_form.cleaned_data.get('name')
                     if name:
-                        new_skills.append(Skill(name=name))
+                        skill, _ = Skill.objects.get_or_create(name=name)
+                        new_skills.append(skill)
                         # Prepare to instantiate skills without m2m values.
                         # Must save instances first.
-                        # use skill_data to target existing skills for deletion
 
                 try:
                     print("Entering atomic block.")
@@ -89,15 +91,12 @@ def profile_update_view(request, pk):
                             obj.users.remove(user.id)                            
                         # Create new skills.
                         for skill in new_skills:
-                            obj, _ = Skill.objects.get_or_create(
-                                name=skill.name
-                            )
-                            obj.save()
-                            print("Creating/opening. {}".format(obj.name))
-                            obj.users.add(user.id)
+                            skill.save()
+                            print("Creating/opening. {}".format(skill.name))
+                            skill.users.add(user.id)
                             # Using add() on a relation that already exists won’t duplicate the relation,
                             print("Added {} to {}'s skills.".format(
-                                obj.name, user.display_name
+                                skill.name, user.display_name
                             ))
                         # And notify our users that it worked
                         messages.success(request, 'You have updated your profile!')

@@ -76,6 +76,11 @@ class SkillForm(forms.Form):
                     required=False)
 
 
+# SkillFormSet = forms.modelformset_factory(
+#    models.Skill
+# )
+
+
 class BaseSkillFormSet(BaseFormSet):
     def clean(self):
         """
