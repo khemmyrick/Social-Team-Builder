@@ -11,11 +11,11 @@ class Project(models.Model):
         max_length=150,
         default='Project {}'.format(str(id)),
         unique=True)
-    description = models.CharField(max_length=500, blank=True, null=True)
+    description = models.CharField(max_length=500, blank=True)
     creator = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 related_name="projects",
                                 on_delete=models.PROTECT)
-    requirements = models.CharField(max_length=500, blank=True, null=True)
+    requirements = models.CharField(max_length=500, blank=True)
     # project.positions to query positions.
 
     def __str__(self):
@@ -28,7 +28,7 @@ class Position(models.Model):
     a description, and related skill.
     '''
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=500, blank=True, null=True)
+    description = models.CharField(max_length=500, blank=True)
     # related_skill
     # like UserPref in pugorugh, regulates who can apply.
     filled = models.BooleanField(default=False)
@@ -43,7 +43,7 @@ class Position(models.Model):
     # user field will be blank until position is filled
     skills = models.ManyToManyField(Skill)
     # skills = foreign key for skills required
-    time = models.CharField(max_length=100, blank=True, null=True)
+    time = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.name
