@@ -4,10 +4,8 @@ from os import path
 import sys
 
 import django
-from django.contrib.auth import get_user_model
 
-from accounts import models as acct_models
-from projects import models as proj_models
+
 
 
 BASE_DIR = path.dirname(path.dirname(path.abspath(__file__)))
@@ -17,6 +15,10 @@ PROJ_DIR = path.dirname(BASE_DIR)
 sys.path.insert(0, PROJ_DIR)
 
 def load_data():
+    # Load models?
+    from accounts import models as acct_models
+    from projects import models as proj_models
+
     # Load User Serializer.
     try:
         from accounts.serializers import UserSerializer
@@ -70,7 +72,7 @@ def load_data():
             print('load_data unsuccessful.')
 
     # Add skills to users.
-    connie = acct_models.User.get(username="ConnieRolek")
+    connie = acct_models.User.objects.get(username="ConnieRolek")
     print("Arming Connie.")
     connie.save()
     djangoskill = acct_models.Skill.objects.get(name="Django")
@@ -81,7 +83,7 @@ def load_data():
     connie.skill_set.add(djangoskill, pyskill, htmlskill, cssskill, javaskill)
     connie.save()
     
-    perry = acct_models.User.get(username="PerryKinder")
+    perry = acct_models.User.objects.get(username="PerryKinder")
     print("Arming Perry.")
     perry.save()
     sqlskill = acct_models.Skill.objects.get(name="SQL")
@@ -202,6 +204,6 @@ def load_data():
 
 if __name__ == '__main__':
     # sys.path.append(PROJ_DIR) ##### MIGHT HAVE TO KEEP THIS FOR DJANGO 2+
-    environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
+    environ.setdefault("DJANGO_SETTINGS_MODULE", "circle.settings")
     django.setup()
     load_data()

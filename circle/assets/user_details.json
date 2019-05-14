@@ -1,6 +1,6 @@
 [
   {
-    "email": "steve@example.com",
+    "email": "stevedemayo@example.com",
 	"username": "SteveDeMayo",
 	"password": "project12",
 	"display_name": "Steve DeMayo",
@@ -9,7 +9,7 @@
     "is_staff": "False"
   },
   {
-    "email": "amy@example.com",
+    "email": "amydietz@example.com",
 	"username": "AmyDietz",
 	"password": "project12",
 	"display_name": "Amy Dietz",
@@ -18,7 +18,7 @@
     "is_staff": "False"
   },
   {
-    "email": "garnet@example.com",
+    "email": "garnetdarling@example.com",
 	"username": "GarnetDarling",
 	"password": "project12",
 	"display_name": "Garnet Darling",
@@ -27,7 +27,7 @@
     "is_staff": "False"
   },
   {
-    "email": "earl@example.com",
+    "email": "earlrose@example.com",
 	"username": "EarlRose",
 	"password": "project12",
 	"display_name": "Earl Rose",
@@ -36,7 +36,7 @@
     "is_staff": "False"
   },
   {
-    "email": "connie@example.com",
+    "email": "connierolek@example.com",
 	"username": "ConnieRolek",
 	"password": "project12",
 	"display_name": "Connie Rolek",
@@ -45,7 +45,7 @@
     "is_staff": "False"
   },
   {
-    "email": "perry@example.com",
+    "email": "perrykinder@example.com",
 	"username": "PerryKinder",
 	"password": "project12",
 	"display_name": "Perry Kinder",
@@ -54,7 +54,7 @@
     "is_staff": "False"
   },
   {
-    "email": "robert@example.com",
+    "email": "robertlazuli@example.com",
 	"username": "RobertLazuli",
 	"password": "project12",
 	"display_name": "Robert Lazuli",

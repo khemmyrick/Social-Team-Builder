@@ -81,7 +81,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Skill(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    users = models.ManyToManyField(User)
+    users = models.ManyToManyField(User, blank=True)
     # skill.users = queuryset of all users with this skill.
 
     # def __str__(self):
