@@ -64,16 +64,21 @@ class SkillCreateForm(ModelForm):
         exclude = ("name",)
 
 
-class SkillForm(forms.Form):
-    """
-    Form for user skills
-    """
-    name = forms.CharField(
-                    max_length=200,
-                    widget=forms.TextInput(attrs={
-                        'placeholder': 'Skill Type',
-                    }),
-                    required=False)
+# class SkillForm(forms.Form):
+#    """
+#    Form for user skills
+#    """
+#    name = forms.CharField(
+#                    max_length=200,
+#                    widget=forms.TextInput(attrs={
+#                        'placeholder': 'Skill Type',
+#                    }),
+#                    required=False)
+
+class SkillForm(ModelForm):
+    class Meta:
+        model = models.Skill
+        fields = ("id", "name")
 
 
 # SkillFormSet = forms.modelformset_factory(

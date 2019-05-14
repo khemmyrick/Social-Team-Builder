@@ -1,20 +1,17 @@
 [
   {
-    "name": "Socializer",
-	"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-	"creator": "SteveDeMayo",
-	"requirements": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    "user": "EarlRose",
+	"position": "Frontend Django Specialist",
+	"status": "True."
   },
   {
-    "name": "RueFire",
-	"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-	"creator": "GarnetDarling",
-	"requirements": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    "user": "PerryKinder",
+	"position": "Frontend Django Specialist.",
+	"status": "True."
   },
   {
-    "name": "ScholarFlair",
-	"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-	"creator": "ConnieRolek",
-	"requirements": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    "user": "RobertLazuli",
+	"position": "Backend Django Specialist",
+	"status": "True."
   }
 ]

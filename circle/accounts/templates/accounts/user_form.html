@@ -81,6 +81,7 @@
 			{% for skill in formset %}
 			  <li>
 			    {{ skill.name }}
+				{{ skill.id }}
 				{% if skill.name.errors %}
 					{% for error in skill.name.errors %}
 						{{ error|escape }}
@@ -88,7 +89,6 @@
 				{% endif %}
 				<a class="circle--clone--add">Add Skill</a>
 				<a class="circle--clone--remove">Remove</a>
-				
 				{% comment %}
 				<!---------------------------------
 				<input type="text" placeholder="{{ skill.name }}" form="profile" />

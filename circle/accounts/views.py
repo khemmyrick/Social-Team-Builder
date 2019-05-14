@@ -178,11 +178,11 @@ class ProfileDetailView(generic.DetailView):
     model = get_user_model()
 
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
         context = super(ProfileDetailView, self).get_context_data(**kwargs)
         # Add in projects context.
         model = self.request.user
         # print('Avatar Path: {}'.format(model.avatar))
+        context['browser'] = self.request.user
         context['projects'] = Project.objects.filter(creator_id=model.id)
         # Should be able to query this from the user?
         # if so, no reason to query projects at all.

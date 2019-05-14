@@ -59,10 +59,10 @@ class Applicant(models.Model):
     Object for storing applicants to a specific project position.
 
     attrs:
-        user: foreignkey user who has categorized a dog.
-        dog: foreignkey dog object in question.
-        status: str indicating that the user has liked or disliked the dog.
-        created_at: time this object was created.
+        user: foreignkey user who may apply to position.
+        position: foreignkey position user may apply for.
+        status: bool indicating that the user has submitted application.
+        applied: time this object was created.
     """
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
