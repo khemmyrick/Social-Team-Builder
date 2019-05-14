@@ -1,14 +1,5 @@
 [
   {
-    "email": "stevedemayo@example.com",
-	"username": "SteveDeMayo",
-	"password": "project12",
-	"display_name": "Steve DeMayo",
-	"bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Fusce id velit ut tortor. Pharetra convallis posuere morbi leo urna molestie at.",
-    "is_active": "True",
-    "is_staff": "False"
-  },
-  {
     "email": "amydietz@example.com",
 	"username": "AmyDietz",
 	"password": "project12",

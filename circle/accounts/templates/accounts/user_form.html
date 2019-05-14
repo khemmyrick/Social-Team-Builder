@@ -80,8 +80,12 @@
 
 			{% for skill in formset %}
 			  <li>
+				{% comment %}
+				<!-- skill.id still does nothing
+				<input id="id_form-{{ skill.id.value }}-name" maxlength="100" name="form-{{ skill.id }}-name" type="text" value="{{ skill.name.value }}">
+				-->
+				{% endcomment %}
 			    {{ skill.name }}
-				{{ skill.id }}
 				{% if skill.name.errors %}
 					{% for error in skill.name.errors %}
 						{{ error|escape }}

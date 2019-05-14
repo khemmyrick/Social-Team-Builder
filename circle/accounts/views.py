@@ -39,9 +39,8 @@ def profile_update_view(request, pk):
     # Get our existing skill data for this user.  This is used as initial data.
     user_skills = user.skill_set.order_by('name')
     skill_data = [{'name': skill.name} for skill in user_skills]
-    # skill_data = [Skill(name=skill.name) for skill in user_skills]
     
-    print("3. Getting existing user skill data: {}".format(user_skills))
+    print("3. Getting existing user skill data. In total: {}".format(len(user_skills)))
     # Make sure we're logged in as user editing this profile.
     if session_user.id == user.id:
         print('{} is indeed {}'.format(user.display_name,
@@ -57,7 +56,7 @@ def profile_update_view(request, pk):
 
             if form.is_valid() and formset.is_valid():
                 # Why isn't my form valid?
-                print("Profile form is valid!")
+                print("Profile form and skill formset are valid!")
                 # Save user info
                 # user.display_name = form.cleaned_data.get('display_name')
                 user.display_name = form.cleaned_data['display_name']
@@ -78,6 +77,7 @@ def profile_update_view(request, pk):
                     name = skill_form.cleaned_data.get('name')
                     if name:
                         skill, _ = Skill.objects.get_or_create(name=name)
+                        print("Getting or creating {}".format(skill.name))
                         new_skills.append(skill)
                         # Prepare to instantiate skills without m2m values.
                         # Must save instances first.
@@ -88,7 +88,7 @@ def profile_update_view(request, pk):
                         # Delete existing skills.
                         for skill in skill_data:
                             obj = Skill.objects.get(name=skill['name'])
-                            obj.users.remove(user.id)                            
+                            obj.users.remove(user.id)
                         # Create new skills.
                         for skill in new_skills:
                             skill.save()

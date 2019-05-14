@@ -6,8 +6,6 @@ import sys
 import django
 
 
-
-
 BASE_DIR = path.dirname(path.dirname(path.abspath(__file__)))
 
 PROJ_DIR = path.dirname(BASE_DIR)
