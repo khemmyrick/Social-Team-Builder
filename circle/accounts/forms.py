@@ -78,12 +78,13 @@ class SkillCreateForm(ModelForm):
 class SkillForm(ModelForm):
     class Meta:
         model = models.Skill
-        fields = ("id", "name")
+        fields = ("name",)
 
 
-# SkillFormSet = forms.modelformset_factory(
-#    models.Skill
-# )
+SkillFormSet = forms.modelformset_factory(
+    models.Skill,
+    SkillForm
+) # This bit may be "explicitly prohibited."
 
 
 class BaseSkillFormSet(BaseFormSet):

@@ -33,7 +33,8 @@ def profile_update_view(request, pk):
     user = User.objects.get(id=pk)
 
     # Create the formset, specifying the form and formset we want to use.
-    SkillFormSet = formset_factory(forms.SkillForm, formset=forms.BaseSkillFormSet)
+    # SkillFormSet = formset_factory(forms.SkillForm, formset=forms.BaseSkillFormSet)
+    SkillFormSet = forms.SkillFormSet(queryset=user.skill_set, prefix="skillset")
     print("2. Skill Formset factory should be created.")
 
     # Get our existing skill data for this user.  This is used as initial data.
@@ -51,7 +52,8 @@ def profile_update_view(request, pk):
             # form needs instance, else it makes new instance.
             # We aren't getting the new form data yet?
             print("5. form should be created.")
-            formset = SkillFormSet(request.POST)
+            # formset = SkillFormSet(request.POST)
+            formset = forms.SkillFormSet(request.POST, prefix='skillset')
             print("6. formset created.")
 
             if form.is_valid() and formset.is_valid():
@@ -113,12 +115,15 @@ def profile_update_view(request, pk):
         else:
             # We haven't made it to this block yet.
             print("1. Else block runs when template is first loaded?")
+            print("This is the GET for the initial load.")
             # form = forms.UserUpdateForm(user=user)
             form = forms.UserUpdateForm()
-            print("2. form is created.")
+            print("2. user form is created.")
             # unexpected keyword argument 'user'
-            formset = SkillFormSet(initial=skill_data)
-            print("3. formset is created.")
+            # For your Initial data loading near the bottom
+            formset = forms.SkillFormSet(initial=skill_data, prefix='skillset')
+            # formset = SkillFormSet(initial=skill_data)
+            print("3. skill formset is created.")
 
     context = {
         'form': form,
