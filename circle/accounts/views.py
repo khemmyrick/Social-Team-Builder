@@ -115,7 +115,7 @@ def profile_update_view(request, pk):
         else:
             # We haven't made it to this block yet.
             print("1. Else block runs when template is first loaded?")
-            print("This is the GET for the initial load.")
+            print("This is the initial load.")
             # form = forms.UserUpdateForm(user=user)
             form = forms.UserUpdateForm()
             print("2. user form is created.")
